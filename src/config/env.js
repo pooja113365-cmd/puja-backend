@@ -19,11 +19,15 @@ const env = {
     keySecret: process.env.RAZORPAY_KEY_SECRET || '',
     webhookSecret: process.env.RAZORPAY_WEBHOOK_SECRET || '',
   },
-  cloudinary: {
-    cloudName: process.env.CLOUDINARY_CLOUD_NAME || '',
-    apiKey: process.env.CLOUDINARY_API_KEY || '',
-    apiSecret: process.env.CLOUDINARY_API_SECRET || '',
-  },
+  cloudinary: (() => {
+    const url = process.env.CLOUDINARY_URL || '';
+    const m = url.match(/^cloudinary:\/\/([^:]+):([^@]+)@(.+)$/);
+    return {
+      cloudName: process.env.CLOUDINARY_CLOUD_NAME || (m ? m[3].trim() : ''),
+      apiKey: process.env.CLOUDINARY_API_KEY || (m ? m[1].trim() : ''),
+      apiSecret: process.env.CLOUDINARY_API_SECRET || (m ? m[2].trim() : ''),
+    };
+  })(),
   commissionRate: Math.min(Math.max(Number(process.env.COMMISSION_RATE ?? 0.2), 0), 0.9),
   advancePercent: Math.min(Math.max(Number(process.env.ADVANCE_PERCENT ?? 30), 1), 100),
 };
