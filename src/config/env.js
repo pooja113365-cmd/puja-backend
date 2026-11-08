@@ -10,7 +10,7 @@ const env = {
   mongoUri: process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/puja_platform',
   jwtSecret: process.env.JWT_SECRET || 'getpuja-production-jwt-secret-key-2026-secure-token',
   jwtExpiresIn: process.env.JWT_EXPIRES_IN || '7d',
-  clientOrigins: (process.env.CLIENT_ORIGINS || 'http://localhost:5173,http://localhost:5174')
+  clientOrigins: (process.env.CLIENT_ORIGINS || '*')
     .split(',')
     .map((s) => s.trim())
     .filter(Boolean),
